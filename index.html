@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W14 中翻英複習</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Trebuchet MS", "Comic Sans MS", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 26%),
+      radial-gradient(circle at top right, rgba(45, 212, 191, 0.14), transparent 24%),
+      radial-gradient(circle at bottom right, rgba(251, 146, 60, 0.10), transparent 22%),
+      linear-gradient(180deg, #f7fbff 0%, #f4fbff 52%, #f8fafc 100%);
+    color: #243b53;
+    font-size: 20px;
+    line-height: 1.8;
+    padding: 28px 18px 50px;
+  }
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    color: #102a43;
+    font-size: clamp(2.45rem, 5.4vw, 3.8rem);
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.92);
+  }
+  .subtitle {
+    text-align: center;
+    color: #486581;
+    margin: 0 auto 18px;
+    font-size: 1.14em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    width: fit-content;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  }
+  .subtitle::before { content: "📚 "; }
+  .subtitle::after { content: " ✍️"; }
+  .top-toolbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+  }
+  section {
+    position: relative;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbfd 100%);
+    border-radius: 30px;
+    padding: 32px 32px 30px;
+    margin-bottom: 34px;
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.08);
+    border: 4px solid #dbe7f2;
+    overflow: hidden;
+  }
+  .container > section:nth-of-type(1) {
+    border-color: #cfe5ff;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  }
+  .container > section:nth-of-type(2) {
+    border-color: #cdeee7;
+    background: linear-gradient(180deg, #ffffff 0%, #f5fffc 100%);
+  }
+  .container > section:nth-of-type(3) {
+    border-color: #ffd9cf;
+    background: linear-gradient(180deg, #ffffff 0%, #fff8f4 100%);
+  }
+  .container > section:nth-of-type(4) {
+    border-color: #fecdd3;
+    background: linear-gradient(180deg, #ffffff 0%, #fff7f8 100%);
+  }
+  h2 {
+    color: #102a43;
+    padding: 16px 22px;
+    border-radius: 20px;
+    display: block;
+    width: 100%;
+    font-size: clamp(1.72rem, 3.4vw, 2.5rem);
+    line-height: 1.35;
+    margin-bottom: 16px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.10);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.72);
+  }
+  .container > section:nth-of-type(1) > h2 {
+    background: linear-gradient(135deg, #bae6fd, #38bdf8);
+  }
+  .container > section:nth-of-type(2) > h2 {
+    background: linear-gradient(135deg, #ccfbf1, #2dd4bf);
+  }
+  .container > section:nth-of-type(3) > h2 {
+    background: linear-gradient(135deg, #fed7aa, #fb923c);
+  }
+  .container > section:nth-of-type(4) > h2 {
+    background: linear-gradient(135deg, #fecdd3, #fb7185);
+  }
+  .container > section:nth-of-type(1) > h2::before { content: "👀 "; }
+  .container > section:nth-of-type(2) > h2::before { content: "🧩 "; }
+  .container > section:nth-of-type(3) > h2::before { content: "🌈 "; }
+  .container > section:nth-of-type(4) > h2::before { content: "🔤 "; }
+  .section-note {
+    color: #627d98;
+    font-size: 1.02em;
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+  .section-note .em-red {
+    color: #d62839;
+    font-weight: 900;
+  }
+  .practice-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+  .answer-toggle {
+    border: 2px solid #14b8a6;
+    background: linear-gradient(180deg, #ffffff 0%, #effcfb 100%);
+    color: #0f766e;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 0.96em;
+    font-weight: 800;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    box-shadow: 0 6px 14px rgba(20, 184, 166, 0.12);
+  }
+  .answer-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(20, 184, 166, 0.18);
+  }
+  .answer-toggle:focus-visible {
+    outline: 3px solid rgba(20, 184, 166, 0.22);
+    outline-offset: 2px;
+  }
+  .examples {
+    background: #fbfdff;
+    border-left: 5px solid #38bdf8;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.12);
+  }
+  .container > section:nth-of-type(2) .examples {
+    border-left-color: #2dd4bf;
+    box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.12);
+  }
+  .container > section:nth-of-type(3) .examples {
+    border-left-color: #fb923c;
+    box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.12);
+  }
+  .container > section:nth-of-type(4) .examples {
+    border-left-color: #fb7185;
+    box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.14);
+  }
+  .review-list {
+    list-style: none;
+    display: grid;
+    gap: 16px;
+  }
+  .review-item {
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #d9e2ec;
+  }
+  .review-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .review-pairs {
+    display: grid;
+    gap: 10px;
+  }
+  .toggle-example-item {
+    padding: 8px 0;
+  }
+  .toggle-example-item .example-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 112px;
+    gap: 10px 12px;
+    align-items: start;
+  }
+  .toggle-example-item .zh {
+    color: #334e68;
+    font-size: 1.08em;
+    line-height: 1.6;
+    display: block;
+    margin-left: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .grammar-keyword {
+    color: #0ea5e9;
+    font-weight: 900;
+  }
+  .toggle-example-item .sentence-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 112px;
+    min-width: 112px;
+    max-width: 112px;
+    min-height: 42px;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    font-size: 0.82em;
+    white-space: normal;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(85, 103, 216, 0.10);
+  }
+  .toggle-example-item .example-en {
+    display: none;
+    color: #0f4c81;
+    font-weight: 700;
+    font-size: 1.08em;
+    line-height: 1.65;
+    margin-top: 8px;
+    margin-left: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .toggle-example-item.is-visible .example-en {
+    display: block;
+  }
+  .third-s {
+    color: #d62839;
+    font-weight: 900;
+  }
+  .vocab-weeks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .vocab-week {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(251, 113, 133, 0.18);
+    border-radius: 18px;
+    padding: 13px 14px;
+    box-shadow: 0 10px 22px rgba(251, 113, 133, 0.08);
+  }
+  .vocab-week-title {
+    color: #7c3aed;
+    font-size: 1.14em;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+  .vocab-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 8px 12px;
+  }
+  .vocab-item {
+    display: grid;
+    grid-template-columns: 90px 28px minmax(0, 1fr);
+    gap: 6px 6px;
+    align-items: center;
+    min-width: 0;
+  }
+  .vocab-play {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: #ffffff;
+    font-size: 0.74em;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    box-shadow: 0 8px 16px rgba(2, 132, 199, 0.16);
+  }
+  .vocab-play:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2);
+  }
+  .vocab-play:focus-visible {
+    outline: 3px solid rgba(2, 132, 199, 0.22);
+    outline-offset: 2px;
+  }
+  .vocab-play[data-state="playing"] {
+    background: linear-gradient(135deg, #ea580c, #f97316);
+    box-shadow: 0 10px 20px rgba(249, 115, 22, 0.22);
+  }
+  .vocab-play:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .vocab-en {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: none;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fff1f2;
+    color: #9f1239;
+    font-size: 0.9em;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .vocab-zh {
+    color: #334e68;
+    font-size: 0.94em;
+    line-height: 1.35;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 900px) {
+    body {
+      font-size: 21px;
+      padding: 20px 12px 40px;
+    }
+    h1 {
+      font-size: clamp(2.25rem, 6vw, 3.25rem);
+    }
+    .subtitle {
+      font-size: 1.08em;
+    }
+    section {
+      padding: 24px 18px 22px;
+      margin-bottom: 24px;
+      border-radius: 24px;
+    }
+    h2 {
+      font-size: clamp(1.95rem, 4vw, 2.7rem);
+      padding: 14px 16px;
+      border-radius: 18px;
+      margin-bottom: 14px;
+    }
+    .section-note {
+      font-size: 1.08em;
+    }
+    .examples {
+      padding: 12px 14px;
+    }
+    .answer-toggle {
+      font-size: 0.98em;
+    }
+    .toggle-example-item .zh,
+    .toggle-example-item .example-en {
+      font-size: 1.12em;
+      line-height: 1.7;
+    }
+    .vocab-week {
+      padding: 12px 13px;
+    }
+  }
+  @media (max-width: 720px) {
+    body {
+      font-size: 21px;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 8.4vw, 3.2rem);
+    }
+    .subtitle {
+      font-size: 1.12em;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+    }
+    h2 {
+      font-size: clamp(1.9rem, 6.2vw, 2.5rem);
+      line-height: 1.42;
+    }
+    .section-note {
+      font-size: 1.08em;
+    }
+    .top-toolbar {
+      margin-bottom: 20px;
+    }
+    .practice-toolbar {
+      margin-bottom: 10px;
+    }
+    .answer-toggle {
+      width: 100%;
+      justify-content: center;
+      padding: 10px 12px;
+      font-size: 1em;
+      display: inline-flex;
+    }
+    .toggle-example-item .example-head {
+      grid-template-columns: 1fr;
+    }
+    .toggle-example-item .sentence-toggle {
+      width: 112px;
+      min-width: 112px;
+      max-width: 112px;
+      justify-self: end;
+    }
+    .toggle-example-item .zh,
+    .toggle-example-item .example-en {
+      font-size: 1.14em;
+      line-height: 1.72;
+    }
+    .vocab-week {
+      padding: 12px;
+    }
+    .vocab-weeks {
+      grid-template-columns: 1fr;
+    }
+    .vocab-list {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🌸 W14 中翻英複習 🌱</h1>
+  <p class="subtitle">Week 11 · Week 12 · Week 13 複習</p>
+  <div class="top-toolbar">
+    <button
+      type="button"
+      class="answer-toggle"
+      id="globalToggle"
+      data-show-label="顯示全部英文"
+      data-hide-label="隱藏全部英文"
+      aria-pressed="false"
+    >顯示全部英文</button>
+  </div>
+  <div id="sectionsRoot"></div>
+</div>
+<script>
+  const reviewSections = [
+    {
+      title: "Part 1 ｜ 主題句型中翻英",
+      note: "",
+      tagColor: "senses",
+      items: [
+        { label: "1", pairs: [{ zh: "我用眼睛看。", en: "I see with my eyes." }] },
+        { label: "2", pairs: [{ zh: "我用耳朵聽。", en: "I hear with my ears." }] },
+        { label: "3", pairs: [{ zh: "我用鼻子聞。", en: "I smell with my nose." }] },
+        { label: "4", pairs: [{ zh: "我用舌頭嚐。", en: "I taste with my tongue." }] },
+        { label: "5", pairs: [{ zh: "我用手感覺／觸摸。", en: "I feel / touch with my hands." }] },
+        {
+          label: "6",
+          pairs: [
+            { zh: "蘋果嚐起來怎麼樣？", en: "How does the apple taste?" },
+            { zh: "蘋果嚐起來又甜又脆。", en: "The apple tastes sweet and crunchy." }
+          ]
+        },
+        {
+          label: "7",
+          pairs: [
+            { zh: "它看起來像甚麼？", en: "What does it look like?" },
+            { zh: "這朵花看起來明亮又美麗。", en: "The flower looks bright and beautiful." }
+          ]
+        },
+        {
+          label: "8",
+          pairs: [
+            { zh: "感覺怎麼樣？／它感覺像什麼？", en: "How does it feel? / What does it feel like?" },
+            { zh: "這隻泰迪熊感覺起來柔軟又毛絨絨的。", en: "The teddy bear feels soft and fluffy." }
+          ]
+        },
+        {
+          label: "9",
+          pairs: [
+            { zh: "它聞起來怎麼樣？", en: "How does it smell?" },
+            { zh: "這朵花聞起來清新又可愛。", en: "The flower smells fresh and lovely." }
+          ]
+        },
+        {
+          label: "10",
+          pairs: [
+            { zh: "那聽起來像什麼？", en: "What does that sound like?" },
+            { zh: "這些鼓聲聽起來大聲。", en: "The drums sound loud." }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Part 2 ｜ 文法中翻英",
+      note: "整理 Then、his / her、do not / does not 的文法例句。",
+      items: [
+        { label: "1", tag: "Then", pairs: [{ zh: "我們吃了午餐，然後去外面玩。（Then）", en: "We ate lunch, then we played outside." }] },
+        { label: "2", tag: "Then", pairs: [{ zh: "我們去了公園，然後我們吃午餐。（Then）", en: "We went to the park, then we had lunch." }] },
+        { label: "3", tag: "Then", pairs: [{ zh: "她踢了足球，然後她喝水。（Then）", en: "She played soccer, then she drank water." }] },
+        { label: "4", tag: "his / her", pairs: [{ zh: "這是他的帽子。（his / her）", en: "This is his hat." }] },
+        { label: "5", tag: "his / her", pairs: [{ zh: "這是她的貓。（his / her）", en: "This is her cat." }] },
+        { label: "6", tag: "do not / does not", pairs: [{ zh: "我不喜歡披薩。（do not / does not）", en: "I do not like pizza." }] },
+        { label: "7", tag: "do not / does not", pairs: [{ zh: "她不吃檸檬。（do not / does not）", en: "She does not eat lemons." }] }
+      ]
+    },
+    {
+      title: "Part 3 ｜ 更多中翻英",
+      note: "",
+      items: [
+        {
+          label: "1",
+          pairs: [
+            { zh: "檸檬吃起來怎麼樣？", en: "How does the lemon taste?" },
+            { zh: "檸檬吃起來很酸。", en: "The lemon tastes sour." }
+          ]
+        },
+        {
+          label: "2",
+          pairs: [
+            { zh: "糖果吃起來怎麼樣？", en: "How does the candy taste?" },
+            { zh: "糖果吃起來很甜。", en: "The candy tastes sweet." }
+          ]
+        },
+        {
+          label: "3",
+          pairs: [
+            { zh: "餅乾吃起來怎麼樣？", en: "How does the cookie taste?" },
+            { zh: "餅乾吃起來又甜又脆。", en: "The cookie tastes sweet and crunchy." }
+          ]
+        },
+        {
+          label: "4",
+          pairs: [
+            { zh: "柳橙吃起來怎麼樣？", en: "How does the orange taste?" },
+            { zh: "柳橙吃起來又甜又酸。", en: "The orange tastes sweet and sour." }
+          ]
+        },
+        {
+          label: "5",
+          pairs: [
+            { zh: "辣醬吃起來怎麼樣？", en: "How does the hot sauce taste?" },
+            { zh: "辣醬吃起來很辣。", en: "The hot sauce tastes spicy." }
+          ]
+        },
+        {
+          label: "6",
+          pairs: [
+            { zh: "她的泰迪熊感覺起來怎麼樣？", en: "How does her teddy bear feel?" },
+            { zh: "她的泰迪熊感覺起來柔軟又蓬鬆。", en: "Her teddy bear feels soft and fluffy." }
+          ]
+        },
+        {
+          label: "7",
+          pairs: [
+            { zh: "他的玩具車感覺起來怎麼樣？", en: "How does his toy car feel?" },
+            { zh: "他的玩具車感覺起來堅硬又光滑。", en: "His toy car feels hard and smooth." }
+          ]
+        },
+        {
+          label: "8",
+          pairs: [
+            { zh: "她的貓感覺起來像甚麼？", en: "What does her cat feel like?" },
+            { zh: "她的貓感覺起來毛茸茸又柔軟。", en: "Her cat feels furry and soft." }
+          ]
+        },
+        {
+          label: "9",
+          pairs: [
+            { zh: "它吃起來是什麼味道？它是甜的、鹹的，還是辣的？", en: "What does it taste like? Is it sweet, salty, or spicy?" },
+            { zh: "它吃起來鹹鹹的，而且很好吃。", en: "It tastes salty and yummy." }
+          ]
+        },
+        {
+          label: "10",
+          pairs: [
+            { zh: "食物拿在手上感覺如何？它是熱的、冷的、軟的，還是脆脆的？", en: "How does the food feel <span class=\"third-s\">in</span> your hands? Is it hot, cold, soft, or crunchy?" },
+            { zh: "它拿在我手上感覺熱熱的、軟軟的。", en: "It feels hot and soft <span class=\"third-s\">in</span> my hands." }
+          ]
+        },
+        {
+          label: "11",
+          pairs: [
+            { zh: "當它在煮的時候，或你吃它的時候，你會聽到什麼聲音？", en: "What sounds do you hear when it’s cooking or when you eat it?" },
+            { zh: "我吃它的時候會聽到脆脆的聲音。", en: "I hear a crunchy sound when I eat it." }
+          ]
+        },
+        {
+          label: "12",
+          pairs: [
+            { zh: "當它在煮的時候，或你吃它的時候，它聞起來是什麼味道？", en: "What does it smell like when it’s cooking or when you eat it?" },
+            { zh: "它聞起來很香，有起司味。", en: "It smells good and cheesy." }
+          ]
+        },
+        {
+          label: "13",
+          pairs: [
+            { zh: "你的食物看起來像什麼？它有什麼顏色和形狀？", en: "What does your food look like? What colors and shapes does it have?" },
+            { zh: "我的食物看起來圓圓的，而且很多顏色。它有紅色、黃色和白色。", en: "My food looks round and colorful. It has red, yellow, and white colors." }
+          ]
+        }
+      ]
+    }
+  ];
+
+  // Keep the Part 4 words inside the page so local file previews still work.
+  const vocabularySource = `Week 7
+
+third	第三
+today	今天
+two	二
+under	在……下面
+would	想要／願意
+life	生命
+cycle	循環
+help	幫助
+sprout	萌芽
+bud	花苞
+bloom	開花
+inside	裡面
+outside	外面
+garden	花園
+sunshine	陽光
+Week 8
+
+does	做
+look	看起來
+new	新的
+there	那裡
+would	將會
+creative	有創造力的
+worm	蚯蚓
+lily	百合花
+rose	玫瑰花
+twigs	細枝
+branch	樹枝
+nature	大自然
+wide	寬的
+thin	瘦的
+trunk	樹幹
+Week 10
+
+look	看
+see	看見
+saw	看見了
+does	做
+like	喜歡
+senses	感官
+hear	聽到
+listen	聆聽
+noise	噪音
+noisy	吵鬧的
+sight	視覺
+eyes	眼睛
+ears	耳朵
+loud	大聲的
+quiet	安靜的
+Week 11
+
+could	可以
+like	喜歡
+love	愛
+want	想要
+would	會／將會
+smell	聞／氣味
+nose	鼻子
+sugar	糖
+spicy	辣的
+taste	味道／品嚐
+thirsty	口渴的
+tongue	舌頭
+sour	酸的
+sweet	甜的
+crunchy	酥脆的
+Week 12
+
+many	許多的
+more	更多的
+other	其他的
+together	一起
+which	哪個
+touch	觸摸／碰觸
+fingers	手指
+soft	柔軟的
+hard	堅硬的
+rough	粗糙的
+bumpy	崎嶇的
+furry	毛茸茸的
+fluffy	蓬鬆的
+sticky	黏的
+slimy	黏滑的`;
+
+  const vocabularyGroups = vocabularySource
+    .trim()
+    .split(/\n(?=Week \d+\n)/)
+    .map((block) => {
+      const lines = block.split("\n").filter(Boolean);
+      const week = lines.shift();
+      const words = lines.map((line) => {
+        const [en, zh] = line.split(/\t+/);
+        return { en, zh };
+      });
+      return { week, words };
+    });
+
+  const root = document.getElementById("sectionsRoot");
+  const globalToggle = document.getElementById("globalToggle");
+  let currentVocabButton = null;
+  let vocabSpeechSession = 0;
+
+  const highlightThirdPersonS = (text) => {
+    const targets = [
+      { word: "tastes", suffixLength: 1 },
+      { word: "looks", suffixLength: 1 },
+      { word: "feels", suffixLength: 1 },
+      { word: "smells", suffixLength: 1 },
+      { word: "has", suffixLength: 1 },
+      { word: "likes", suffixLength: 1 },
+      { word: "carries", suffixLength: 1 },
+      { word: "drinks", suffixLength: 1 },
+      { word: "eats", suffixLength: 1 }
+    ];
+    const withThirdPersonHighlight = targets.reduce((result, target) => {
+      const pattern = new RegExp(`\\b${target.word}\\b`, "gi");
+      return result.replace(pattern, (match) => `${match.slice(0, -target.suffixLength)}<span class="third-s">${match.slice(-target.suffixLength)}</span>`);
+    }, text);
+    return withThirdPersonHighlight.replace(/\b(ate|went|drank)\b/gi, "<span class=\"third-s\">$1</span>");
+  };
+
+  const highlightGrammarKeyword = (text) => {
+    return text.replace(/（([^）]+)）/g, "（<span class=\"grammar-keyword\">$1</span>）");
+  };
+
+  const setInlineItemState = (item, shown) => {
+    item.classList.toggle("is-visible", shown);
+    item.dataset.visible = shown ? "true" : "false";
+    const button = item.querySelector("[data-inline-toggle]");
+    if (!button) return;
+    const showLabel = button.dataset.showLabel || "顯示英文";
+    const hideLabel = button.dataset.hideLabel || "隱藏英文";
+    button.textContent = shown ? hideLabel : showLabel;
+    button.setAttribute("aria-pressed", String(shown));
+  };
+
+  const syncInlineGroup = (group) => {
+    if (!group) return;
+    const button = group.querySelector("[data-inline-toggle-all]");
+    if (!button) return;
+    const items = Array.from(group.querySelectorAll(".toggle-example-item"));
+    const allShown = items.length > 0 && items.every((item) => item.classList.contains("is-visible"));
+    const showLabel = button.dataset.showLabel || "顯示本區英文";
+    const hideLabel = button.dataset.hideLabel || "隱藏本區英文";
+    button.textContent = allShown ? hideLabel : showLabel;
+    button.setAttribute("aria-pressed", String(allShown));
+  };
+
+  const syncGlobalToggle = () => {
+    const items = Array.from(document.querySelectorAll(".toggle-example-item"));
+    const allShown = items.length > 0 && items.every((item) => item.classList.contains("is-visible"));
+    const showLabel = globalToggle.dataset.showLabel || "顯示全部英文";
+    const hideLabel = globalToggle.dataset.hideLabel || "隱藏全部英文";
+    globalToggle.textContent = allShown ? hideLabel : showLabel;
+    globalToggle.setAttribute("aria-pressed", String(allShown));
+  };
+
+  const createSectionToggle = (section) => {
+    const sectionToggle = document.createElement("button");
+    sectionToggle.type = "button";
+    sectionToggle.className = "answer-toggle";
+    sectionToggle.dataset.inlineToggleAll = "";
+    sectionToggle.dataset.showLabel = "顯示本區英文";
+    sectionToggle.dataset.hideLabel = "隱藏本區英文";
+    sectionToggle.setAttribute("aria-pressed", "false");
+    sectionToggle.textContent = "顯示本區英文";
+    sectionToggle.addEventListener("click", () => {
+      const items = Array.from(section.querySelectorAll(".toggle-example-item"));
+      const shouldShowAll = !items.every((item) => item.classList.contains("is-visible"));
+      items.forEach((item) => setInlineItemState(item, shouldShowAll));
+      syncInlineGroup(section);
+      syncGlobalToggle();
+    });
+    return sectionToggle;
+  };
+
+  function buildSection(sectionData) {
+    const section = document.createElement("section");
+    section.setAttribute("data-inline-group", "");
+
+    const h2 = document.createElement("h2");
+    h2.textContent = sectionData.title;
+    section.append(h2);
+
+    const note = document.createElement("p");
+    note.className = "section-note";
+    note.innerHTML = sectionData.note;
+    section.append(note);
+
+    const toolbar = document.createElement("div");
+    toolbar.className = "practice-toolbar";
+    toolbar.append(createSectionToggle(section));
+    section.append(toolbar);
+
+    const examples = document.createElement("div");
+    examples.className = "examples";
+
+    const list = document.createElement("ol");
+    list.className = "review-list";
+
+    sectionData.items.forEach((itemData) => {
+      const item = document.createElement("li");
+      item.className = "review-item";
+
+      const pairs = document.createElement("div");
+      pairs.className = "review-pairs";
+
+      itemData.pairs.forEach((pair, pairIndex) => {
+        const pairItem = document.createElement("div");
+        pairItem.className = "toggle-example-item";
+        pairItem.dataset.visible = "false";
+
+        const pairHead = document.createElement("div");
+        pairHead.className = "example-head";
+
+        const zh = document.createElement("span");
+        zh.className = "zh";
+        const prefix = pairIndex === 0 ? `${itemData.label}. ` : "";
+        zh.innerHTML = highlightGrammarKeyword(`${prefix}${pair.zh}`);
+
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "answer-toggle sentence-toggle";
+        toggle.dataset.inlineToggle = "";
+        toggle.dataset.showLabel = "顯示英文";
+        toggle.dataset.hideLabel = "隱藏英文";
+        toggle.setAttribute("aria-pressed", "false");
+        toggle.textContent = "顯示英文";
+        toggle.addEventListener("click", () => {
+          const shown = !pairItem.classList.contains("is-visible");
+          setInlineItemState(pairItem, shown);
+          syncInlineGroup(section);
+          syncGlobalToggle();
+        });
+
+        const en = document.createElement("span");
+        en.className = "example-en";
+        en.innerHTML = highlightThirdPersonS(pair.en);
+
+        pairHead.append(zh, toggle);
+        pairItem.append(pairHead, en);
+        pairs.append(pairItem);
+      });
+
+      item.append(pairs);
+      list.append(item);
+    });
+
+    examples.append(list);
+    section.append(examples);
+    root.append(section);
+    syncInlineGroup(section);
+  }
+
+  function buildVocabularySection(sectionData) {
+    const section = document.createElement("section");
+
+    const h2 = document.createElement("h2");
+    h2.textContent = sectionData.title;
+    section.append(h2);
+
+    if (sectionData.note) {
+      const note = document.createElement("p");
+      note.className = "section-note";
+      note.textContent = sectionData.note;
+      section.append(note);
+    }
+
+    const examples = document.createElement("div");
+    examples.className = "examples";
+
+    const weeks = document.createElement("div");
+    weeks.className = "vocab-weeks";
+
+    sectionData.groups.forEach((group) => {
+      const week = document.createElement("div");
+      week.className = "vocab-week";
+
+      const title = document.createElement("h3");
+      title.className = "vocab-week-title";
+      title.textContent = group.week;
+      week.append(title);
+
+      const list = document.createElement("ol");
+      list.className = "vocab-list";
+
+      group.words.forEach((word, index) => {
+        const item = document.createElement("li");
+        item.className = "vocab-item";
+
+        const play = document.createElement("button");
+        play.type = "button";
+        play.className = "vocab-play";
+        play.dataset.vocabWord = word.en;
+        play.dataset.state = "ready";
+        play.setAttribute("aria-label", `播放 ${word.en}`);
+        play.title = `播放 ${word.en}`;
+        play.textContent = "▶";
+        play.addEventListener("click", () => toggleVocabularyWord(word.en, play));
+
+        const en = document.createElement("span");
+        en.className = "vocab-en";
+        en.textContent = word.en;
+
+        const zh = document.createElement("span");
+        zh.className = "vocab-zh";
+        zh.textContent = `${index + 1}. ${word.zh}`;
+
+        item.append(en, play, zh);
+        list.append(item);
+      });
+
+      week.append(list);
+      weeks.append(week);
+    });
+
+    examples.append(weeks);
+    section.append(examples);
+    root.append(section);
+  }
+
+  function resetVocabularyButtons() {
+    document.querySelectorAll(".vocab-play").forEach((button) => {
+      button.dataset.state = "ready";
+      button.textContent = "▶";
+      button.setAttribute("aria-pressed", "false");
+    });
+  }
+
+  function stopVocabularySpeech() {
+    vocabSpeechSession += 1;
+    currentVocabButton = null;
+    resetVocabularyButtons();
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }
+
+  function toggleVocabularyWord(word, button) {
+    if (!("speechSynthesis" in window) || typeof window.SpeechSynthesisUtterance !== "function") {
+      button.disabled = true;
+      button.title = "這個瀏覽器不支援朗讀";
+      button.setAttribute("aria-label", `${word} 無法朗讀`);
+      return;
+    }
+
+    if (currentVocabButton === button) {
+      stopVocabularySpeech();
+      return;
+    }
+
+    stopVocabularySpeech();
+
+    const sessionId = vocabSpeechSession;
+    currentVocabButton = button;
+    button.dataset.state = "playing";
+    button.textContent = "■";
+    button.setAttribute("aria-pressed", "true");
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    utterance.pitch = 1;
+    utterance.onend = () => {
+      if (currentVocabButton !== button || vocabSpeechSession !== sessionId) return;
+      currentVocabButton = null;
+      resetVocabularyButtons();
+    };
+    utterance.onerror = () => {
+      if (currentVocabButton !== button || vocabSpeechSession !== sessionId) return;
+      currentVocabButton = null;
+      resetVocabularyButtons();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  reviewSections.forEach(buildSection);
+  buildVocabularySection({
+    title: "Part 4 ｜ A冠王單字複習",
+    note: "",
+    groups: vocabularyGroups
+  });
+
+  globalToggle.addEventListener("click", () => {
+    const items = Array.from(document.querySelectorAll(".toggle-example-item"));
+    const shouldShowAll = !items.every((item) => item.classList.contains("is-visible"));
+    items.forEach((item) => setInlineItemState(item, shouldShowAll));
+    document.querySelectorAll("[data-inline-group]").forEach((group) => {
+      syncInlineGroup(group);
+    });
+    syncGlobalToggle();
+  });
+
+  syncGlobalToggle();
+</script>
+</body>
+</html>
