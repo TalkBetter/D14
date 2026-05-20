@@ -233,24 +233,18 @@
     color: #d62839;
     font-weight: 900;
   }
-  .past-tense {
-    color: #6d28d9;
-    font-weight: 900;
-    white-space: nowrap;
-  }
   .past-tense-tag {
-    display: inline-block;
-    margin-left: 4px;
-    padding: 1px 7px;
-    font-size: 0.62em;
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    font-size: 0.66em;
     font-weight: 800;
     color: #5b21b6;
     background: #ede9fe;
     border: 1px solid rgba(91, 33, 182, 0.2);
     border-radius: 999px;
     letter-spacing: 0.04em;
-    vertical-align: middle;
-    line-height: 1.4;
+    line-height: 1.2;
   }
   .vocab-weeks {
     display: grid;
@@ -838,19 +832,14 @@ slimy	adj.	黏滑的`;
       { word: "drinks", suffixLength: 1 },
       { word: "eats", suffixLength: 1 }
     ];
-    return targets.reduce((result, target) => {
+    const withThirdPersonHighlight = targets.reduce((result, target) => {
       const pattern = new RegExp(`\\b${target.word}\\b`, "gi");
       return result.replace(pattern, (match) => `${match.slice(0, -target.suffixLength)}<span class="third-s">${match.slice(-target.suffixLength)}</span>`);
     }, text);
+    return withThirdPersonHighlight.replace(/\b(ate|went|drank)\b/gi, "<span class=\"third-s\">$1</span>");
   };
 
-  const markPastTense = (text) => {
-    const pastVerbs = ["ate", "went", "drank", "played", "had"];
-    return pastVerbs.reduce((result, verb) => {
-      const pattern = new RegExp(`\\b${verb}\\b`, "gi");
-      return result.replace(pattern, (match) => `<span class="past-tense">${match}<span class="past-tense-tag">過去式</span></span>`);
-    }, text);
-  };
+  const PAST_TENSE_VOCAB = new Set(["saw"]);
 
   const highlightGrammarKeyword = (text) => {
     return text.replace(/（([^）]+)）/g, "（<span class=\"grammar-keyword\">$1</span>）");
@@ -968,7 +957,7 @@ slimy	adj.	黏滑的`;
 
         const en = document.createElement("span");
         en.className = "example-en";
-        en.innerHTML = highlightThirdPersonS(markPastTense(pair.en));
+        en.innerHTML = highlightThirdPersonS(pair.en);
 
         pairHead.append(zh, toggle);
         pairItem.append(pairHead, en);
@@ -1075,6 +1064,13 @@ slimy	adj.	黏滑的`;
           pos.className = "vocab-pos";
           pos.textContent = word.pos;
           zh.append(pos);
+        }
+
+        if (PAST_TENSE_VOCAB.has(word.en.toLowerCase())) {
+          const pastTag = document.createElement("span");
+          pastTag.className = "past-tense-tag";
+          pastTag.textContent = "過去式";
+          zh.append(pastTag);
         }
 
         item.append(en, play, zh);
