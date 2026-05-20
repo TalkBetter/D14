@@ -308,6 +308,7 @@
     box-shadow: none;
   }
   .vocab-en {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -322,9 +323,70 @@
     letter-spacing: 0.02em;
     line-height: 1.2;
     text-align: center;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.12s;
+  }
+  .vocab-en:hover {
+    background: #ffe4e6;
+    box-shadow: 0 6px 14px rgba(159, 18, 57, 0.14);
+    transform: translateY(-1px);
+  }
+  .vocab-en:focus-visible {
+    outline: 3px solid rgba(244, 114, 182, 0.42);
+    outline-offset: 2px;
+  }
+  .vocab-en.is-hidden {
+    background: #fce7f3;
+    color: transparent;
+    text-shadow: none;
+    box-shadow: inset 0 0 0 1px rgba(190, 24, 93, 0.18);
+  }
+  .vocab-en.is-hidden::after {
+    content: "點我看";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9d174d;
+    font-size: 0.78em;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+  }
+  .vocab-en.is-hidden .vocab-en-word {
+    visibility: hidden;
   }
   .vocab-en-word {
     white-space: nowrap;
+  }
+  .vocab-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+  .vocab-toggle-all {
+    border: 2px solid #db2777;
+    background: linear-gradient(180deg, #ffffff 0%, #fff1f5 100%);
+    color: #9d174d;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 0.96em;
+    font-weight: 800;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    box-shadow: 0 6px 14px rgba(219, 39, 119, 0.14);
+  }
+  .vocab-toggle-all:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(219, 39, 119, 0.2);
+  }
+  .vocab-toggle-all:focus-visible {
+    outline: 3px solid rgba(219, 39, 119, 0.28);
+    outline-offset: 2px;
   }
   .vocab-pos {
     display: inline-flex;
@@ -911,6 +973,19 @@ slimy	adj.	黏滑的`;
       section.append(note);
     }
 
+    const toolbar = document.createElement("div");
+    toolbar.className = "vocab-toolbar";
+
+    const hideAllToggle = document.createElement("button");
+    hideAllToggle.type = "button";
+    hideAllToggle.className = "vocab-toggle-all";
+    hideAllToggle.dataset.hideLabel = "遮住全部單字";
+    hideAllToggle.dataset.showLabel = "顯示全部單字";
+    hideAllToggle.setAttribute("aria-pressed", "false");
+    hideAllToggle.textContent = "遮住全部單字";
+    toolbar.append(hideAllToggle);
+    section.append(toolbar);
+
     const examples = document.createElement("div");
     examples.className = "examples";
 
@@ -943,8 +1018,18 @@ slimy	adj.	黏滑的`;
         play.textContent = "▶";
         play.addEventListener("click", () => toggleVocabularyWord(word.en, play));
 
-        const en = document.createElement("span");
+        const en = document.createElement("button");
+        en.type = "button";
         en.className = "vocab-en";
+        en.setAttribute("aria-pressed", "false");
+        en.setAttribute("aria-label", `顯示或遮住單字 ${word.en}`);
+        en.title = "點擊遮住／顯示單字";
+        en.addEventListener("click", () => {
+          const nowHidden = !en.classList.contains("is-hidden");
+          en.classList.toggle("is-hidden", nowHidden);
+          en.setAttribute("aria-pressed", String(nowHidden));
+          syncVocabToggleAll(hideAllToggle, weeks);
+        });
 
         const enWord = document.createElement("span");
         enWord.className = "vocab-en-word";
@@ -977,6 +1062,25 @@ slimy	adj.	黏滑的`;
     examples.append(weeks);
     section.append(examples);
     root.append(section);
+
+    hideAllToggle.addEventListener("click", () => {
+      const enButtons = Array.from(weeks.querySelectorAll(".vocab-en"));
+      const shouldHideAll = !enButtons.every((btn) => btn.classList.contains("is-hidden"));
+      enButtons.forEach((btn) => {
+        btn.classList.toggle("is-hidden", shouldHideAll);
+        btn.setAttribute("aria-pressed", String(shouldHideAll));
+      });
+      syncVocabToggleAll(hideAllToggle, weeks);
+    });
+
+    syncVocabToggleAll(hideAllToggle, weeks);
+  }
+
+  function syncVocabToggleAll(button, scope) {
+    const enButtons = Array.from(scope.querySelectorAll(".vocab-en"));
+    const allHidden = enButtons.length > 0 && enButtons.every((btn) => btn.classList.contains("is-hidden"));
+    button.textContent = allHidden ? button.dataset.showLabel : button.dataset.hideLabel;
+    button.setAttribute("aria-pressed", String(allHidden));
   }
 
   function resetVocabularyButtons() {
