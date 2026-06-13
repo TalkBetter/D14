@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ants and Ladybugs</title>
+  <style>
+    :root {
+      --bg: #f5f8f3;
+      --paper: #ffffff;
+      --ink: #17212b;
+      --muted: #5b6876;
+      --line: #d8e0d7;
+      --green: #287a58;
+      --green-soft: #dff0e5;
+      --red: #c83f3f;
+      --red-soft: #ffe3df;
+      --gold: #e0a527;
+      --gold-soft: #fff1c9;
+      --blue: #316c94;
+      --blue-soft: #dcebf3;
+      --shadow: 0 14px 34px rgba(23, 33, 43, 0.11);
+      --font: "Aptos", "Trebuchet MS", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      --display: "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 19px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #f5f8f3 0%, #fffaf0 44%, #eef7f2 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 96px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 0.85fr);
+      gap: 24px;
+      align-items: center;
+      padding: 28px 0 18px;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 18px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2 {
+      font-family: var(--display);
+    }
+
+    h1 {
+      font-size: 3.35rem;
+      line-height: 1.02;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.12rem;
+      line-height: 1.55;
+    }
+
+    .quick-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .quick-nav a {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(23, 33, 43, 0.06);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(23, 33, 43, 0.06);
+    }
+
+    .toggle input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 330px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #e5f4e9 0%, #fbf7df 64%, #d7ecd8 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .generated-visual {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+    }
+
+    .generated-panel {
+      min-height: 270px;
+    }
+
+    .leaf {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      bottom: 28px;
+      height: 92px;
+      border-radius: 100% 0 100% 0;
+      background: linear-gradient(135deg, #4c9f68, #9fcf5a);
+      transform: rotate(-4deg);
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.28);
+    }
+
+    .leaf::after {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 10%;
+      top: 48%;
+      border-top: 3px solid rgba(255, 255, 255, 0.54);
+      transform: rotate(2deg);
+    }
+
+    .ant-figure,
+    .ladybug-figure {
+      position: absolute;
+      z-index: 2;
+    }
+
+    .ant-figure {
+      left: 44px;
+      bottom: 96px;
+      width: 182px;
+      height: 116px;
+    }
+
+    .ant-body {
+      position: absolute;
+      top: 42px;
+      border-radius: 999px;
+      background: #2b2522;
+      box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .ant-body.head {
+      left: 0;
+      width: 50px;
+      height: 48px;
+    }
+
+    .ant-body.thorax {
+      left: 48px;
+      width: 58px;
+      height: 54px;
+    }
+
+    .ant-body.abdomen {
+      left: 101px;
+      width: 78px;
+      height: 62px;
+      top: 38px;
+    }
+
+    .ant-eye {
+      position: absolute;
+      left: 13px;
+      top: 53px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    .antenna {
+      position: absolute;
+      left: 13px;
+      top: 27px;
+      width: 48px;
+      height: 32px;
+      border-top: 4px solid #2b2522;
+      border-radius: 50%;
+      transform-origin: left center;
+    }
+
+    .antenna.one {
+      transform: rotate(-32deg);
+    }
+
+    .antenna.two {
+      top: 34px;
+      transform: rotate(-58deg);
+    }
+
+    .leg {
+      position: absolute;
+      width: 64px;
+      height: 42px;
+      border-bottom: 5px solid #2b2522;
+      border-radius: 0 0 80px 80px;
+    }
+
+    .leg.l1 {
+      left: 28px;
+      top: 77px;
+      transform: rotate(20deg);
+    }
+
+    .leg.l2 {
+      left: 66px;
+      top: 82px;
+      transform: rotate(0deg);
+    }
+
+    .leg.l3 {
+      left: 110px;
+      top: 76px;
+      transform: rotate(-18deg);
+    }
+
+    .leg.l4 {
+      left: 32px;
+      top: 31px;
+      transform: rotate(198deg);
+    }
+
+    .leg.l5 {
+      left: 73px;
+      top: 28px;
+      transform: rotate(180deg);
+    }
+
+    .leg.l6 {
+      left: 113px;
+      top: 30px;
+      transform: rotate(160deg);
+    }
+
+    .ladybug-figure {
+      right: 48px;
+      bottom: 92px;
+      width: 170px;
+      height: 134px;
+    }
+
+    .ladybug-shell {
+      position: absolute;
+      left: 24px;
+      top: 28px;
+      width: 122px;
+      height: 96px;
+      border-radius: 62px 62px 48px 48px;
+      background: var(--red);
+      border: 5px solid #281f1e;
+      box-shadow: inset 0 -12px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .ladybug-shell::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #281f1e;
+      transform: translateX(-50%);
+    }
+
+    .ladybug-head {
+      position: absolute;
+      left: 49px;
+      top: 5px;
+      width: 72px;
+      height: 54px;
+      border-radius: 44px 44px 22px 22px;
+      background: #281f1e;
+    }
+
+    .ladybug-dot {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #251f1d;
+    }
+
+    .ladybug-dot.d1 {
+      left: 44px;
+      top: 52px;
+    }
+
+    .ladybug-dot.d2 {
+      left: 78px;
+      top: 62px;
+    }
+
+    .ladybug-dot.d3 {
+      left: 111px;
+      top: 52px;
+    }
+
+    .ladybug-dot.d4 {
+      left: 58px;
+      top: 91px;
+    }
+
+    .ladybug-dot.d5 {
+      left: 101px;
+      top: 91px;
+    }
+
+    .ladybug-ant {
+      position: absolute;
+      top: 0;
+      width: 42px;
+      height: 34px;
+      border-top: 4px solid #281f1e;
+      border-radius: 50%;
+    }
+
+    .ladybug-ant.a1 {
+      left: 30px;
+      transform: rotate(-35deg);
+    }
+
+    .ladybug-ant.a2 {
+      right: 30px;
+      transform: rotate(35deg);
+    }
+
+    .section {
+      margin-top: 20px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 30px rgba(23, 33, 43, 0.07);
+      scroll-margin-top: 14px;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1.2fr);
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      display: grid;
+      gap: 8px;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      line-height: 1.05;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .visual-panel {
+      min-height: 220px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    .visual-panel img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      object-fit: contain;
+      display: block;
+      background: #f7fbff;
+    }
+
+    .mini-scene {
+      position: relative;
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, #f9fcff 0%, #eef7e8 100%);
+    }
+
+    .mini-scene .ladybug-figure {
+      right: 50%;
+      bottom: 54px;
+      transform: translateX(50%) scale(1.12);
+    }
+
+    .grass {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 78px;
+      background: #cee7b8;
+    }
+
+    .grass::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -22px;
+      height: 44px;
+      background:
+        linear-gradient(135deg, transparent 44%, #cee7b8 45% 55%, transparent 56%) 0 0 / 26px 44px repeat-x;
+    }
+
+    .sentence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .sentence-card {
+      display: grid;
+      gap: 10px;
+      min-height: 162px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 8px 18px rgba(23, 33, 43, 0.06);
+    }
+
+    .qa-card {
+      min-height: auto;
+      gap: 12px;
+    }
+
+    .qa-entry {
+      display: grid;
+      gap: 8px;
+    }
+
+    .qa-entry.answer {
+      padding: 12px 0 0 16px;
+      border-top: 1px dashed var(--line);
+      border-left: 4px solid var(--green);
+    }
+
+    .ladybug .qa-entry.answer {
+      border-left-color: var(--red);
+    }
+
+    .same .qa-entry.answer {
+      border-left-color: var(--gold);
+    }
+
+    .different .qa-entry.answer {
+      border-left-color: var(--blue);
+    }
+
+    .sentence-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 900;
+      background: var(--green-soft);
+      white-space: nowrap;
+    }
+
+    .ladybug .tag {
+      background: var(--red-soft);
+    }
+
+    .same .tag {
+      background: var(--gold-soft);
+    }
+
+    .different .tag {
+      background: var(--blue-soft);
+    }
+
+    .speak-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 36px;
+      padding: 6px 10px;
+      border: 0;
+      border-radius: 999px;
+      background: #203142;
+      color: #ffffff;
+      font-size: 0.84rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .speak-button svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .speak-button:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .speak-button[data-state="playing"] {
+      background: #c2410c;
+    }
+
+    .en {
+      color: var(--ink);
+      font-size: 1.32rem;
+      font-weight: 900;
+      line-height: 1.32;
+      overflow-wrap: anywhere;
+    }
+
+    .zh {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    body.hide-zh .zh {
+      display: none;
+    }
+
+    body.hide-zh .sentence-card {
+      min-height: 132px;
+    }
+
+    .compare-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 270px;
+    }
+
+    .compare-side {
+      position: relative;
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .compare-side.ant-side {
+      background: var(--green-soft);
+    }
+
+    .compare-side.ladybug-side {
+      background: var(--red-soft);
+    }
+
+    .compare-side .ant-figure {
+      left: 50%;
+      bottom: 86px;
+      transform: translateX(-50%) scale(0.9);
+    }
+
+    .compare-side .ladybug-figure {
+      right: auto;
+      left: 50%;
+      bottom: 78px;
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    .compare-label {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      font-weight: 900;
+    }
+
+    .cycle {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 14px;
+      background: #fffaf0;
+    }
+
+    .cycle-step {
+      min-height: 112px;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      gap: 8px;
+      border: 1px solid #eddca5;
+      border-radius: 8px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .cycle-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gold-soft);
+      border: 3px solid var(--gold);
+    }
+
+    .cycle-dot.long {
+      width: 62px;
+      border-radius: 28px;
+    }
+
+    .cycle-dot.shell {
+      background: var(--red-soft);
+      border-color: var(--red);
+      position: relative;
+    }
+
+    .cycle-dot.shell::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 4px;
+      bottom: 4px;
+      width: 3px;
+      background: var(--red);
+      transform: translateX(-50%);
+    }
+
+    .cycle-step strong {
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+
+    .footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .game-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 30px 24px;
+      border-radius: 8px;
+      text-align: center;
+      background:
+        radial-gradient(120% 120% at 50% 0%, #c8efff 0%, #e8dff5 52%, #d8c8ef 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-title {
+      font-family: var(--display);
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #5b2a86;
+    }
+
+    .cta-sub {
+      color: #6a5a86;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      padding: 18px 52px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+      color: #fff;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      border: 4px solid #fff;
+      box-shadow: 0 8px 0 #4a148c, 0 16px 34px rgba(156, 39, 176, 0.42);
+      animation: play-bounce 1.6s ease-in-out infinite;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+
+    .play-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 11px 0 #4a148c, 0 20px 40px rgba(156, 39, 176, 0.55);
+    }
+
+    .play-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 4px 0 #4a148c;
+      animation: none;
+    }
+
+    @keyframes play-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .page-footer {
+      position: fixed;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .footer-link,
+    .back-to-top-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 1.04rem;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      pointer-events: auto;
+    }
+
+    .footer-link {
+      background: linear-gradient(135deg, #287a58, #316c94);
+      box-shadow: 0 14px 28px rgba(49, 108, 148, 0.22);
+    }
+
+    .back-to-top-button {
+      border: 0;
+      background: linear-gradient(135deg, #e0a527, #c83f3f);
+      box-shadow: 0 14px 28px rgba(200, 63, 63, 0.24);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .footer-link:hover,
+    .back-to-top-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .section-header {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        min-height: 300px;
+      }
+
+      .quick-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sentence-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      html {
+        font-size: 18px;
+      }
+
+      .page {
+        width: min(100% - 18px, 100%);
+        padding-top: 10px;
+        padding-bottom: 86px;
+      }
+
+      .page-footer {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        gap: 10px;
+      }
+
+      .footer-link,
+      .back-to-top-button {
+        min-height: 48px;
+        padding: 11px 16px;
+        font-size: 0.96rem;
+      }
+
+      h1 {
+        font-size: 2.45rem;
+      }
+
+      h2 {
+        font-size: 1.86rem;
+      }
+
+      .quick-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 14px;
+      }
+
+      .hero-art {
+        min-height: 260px;
+      }
+
+      .ant-figure {
+        left: 18px;
+        transform: scale(0.76);
+        transform-origin: left bottom;
+      }
+
+      .ladybug-figure {
+        right: 18px;
+        transform: scale(0.78);
+        transform-origin: right bottom;
+      }
+
+      .sentence-top {
+        align-items: flex-start;
+      }
+
+      .speak-button {
+        min-width: 42px;
+      }
+
+      .speak-button span {
+        display: none;
+      }
+
+      .en {
+        font-size: 1.2rem;
+      }
+
+      .zh {
+        font-size: 1rem;
+      }
+
+      .compare-visual,
+      .cycle {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" id="top">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <div>
+          <h1 id="page-title">Ants and Ladybugs</h1>
+          <p class="subtitle">螞蟻與瓢蟲學習頁</p>
+        </div>
+
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <img class="generated-visual" src="images/optimized/ant-ladybug-hero.jpg" alt="">
+      </div>
+    </section>
+
+    <section class="section ant" id="ants" aria-labelledby="ants-title">
+      <div class="section-header">
+        <div class="section-title">
+          <h2 id="ants-title">螞蟻介紹</h2>
+        </div>
+        <div class="visual-panel">
+          <img src="images/optimized/ant-body-parts.jpg" alt="Ant body parts diagram">
+        </div>
+      </div>
+
+      <div class="sentence-grid">
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ant Q&A 1</span>
+            <button class="speak-button" type="button" data-audio="audio/01.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">Describe the ant.</p>
+            <p class="zh">描述這隻螞蟻。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">This is an ant.</p>
+            <p class="zh">這是一隻螞蟻。</p>
+          </div>
+        </article>
+
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ant Q&A 2</span>
+            <button class="speak-button" type="button" data-audio="audio/02.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What body part does it have?</p>
+            <p class="zh">它有什麼身體部位？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">It has six legs and antennae.</p>
+            <p class="zh">牠有六隻腳和觸角。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">Ants have six legs and antennae.</p>
+            <p class="zh">螞蟻有六隻腳和觸角。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">It has a head, a thorax, and an abdomen.</p>
+            <p class="zh">牠有頭、胸部和腹部。</p>
+          </div>
+        </article>
+
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ant Q&A 3</span>
+            <button class="speak-button" type="button" data-audio="audio/03.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">Where does it live?</p>
+            <p class="zh">它住在哪裡？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">It lives in an anthill.</p>
+            <p class="zh">牠住在蟻丘裡。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">Ants live in anthills.</p>
+            <p class="zh">螞蟻住在蟻丘裡。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">It lives under the ground.</p>
+            <p class="zh">牠住在地底下。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section ladybug" id="ladybugs" aria-labelledby="ladybugs-title">
+      <div class="section-header">
+        <div class="section-title">
+          <h2 id="ladybugs-title">瓢蟲介紹</h2>
+        </div>
+        <div class="visual-panel generated-panel" aria-hidden="true">
+          <img class="generated-visual" src="images/optimized/ladybug-intro.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="sentence-grid">
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ladybug Q&A 1</span>
+            <button class="speak-button" type="button" data-audio="audio/04.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">Describe the _____. (critter/bug)</p>
+            <p class="zh">描述這個_____。（小動物／昆蟲）</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">This is a red ladybug. It is tiny.</p>
+            <p class="zh">這是一隻紅色的瓢蟲。牠很小。</p>
+          </div>
+        </article>
+
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ladybug Q&A 2</span>
+            <button class="speak-button" type="button" data-audio="audio/05.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What body part does it have?</p>
+            <p class="zh">牠有什麼身體部位？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">It has spots and wings.</p>
+            <p class="zh">牠有斑點和翅膀。</p>
+          </div>
+        </article>
+
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ladybug Q&A 3</span>
+            <button class="speak-button" type="button" data-audio="audio/06.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What body part does it have?</p>
+            <p class="zh">牠有什麼身體部位？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">Ladybugs have spots and wings.</p>
+            <p class="zh">瓢蟲有斑點和翅膀。</p>
+          </div>
+        </article>
+
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Ladybug Q&A 4</span>
+            <button class="speak-button" type="button" data-audio="audio/07.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What is the life cycle of a ladybug?</p>
+            <p class="zh">瓢蟲的生命週期是什麼？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">eggs → larva → pupa → adult</p>
+            <p class="zh">卵 → 幼蟲 → 蛹 → 成蟲</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="visual-panel generated-panel" aria-hidden="true" style="margin-top: 12px;">
+        <img class="generated-visual" src="images/optimized/ladybug-life-cycle-labeled.jpg" alt="">
+      </div>
+    </section>
+
+    <section class="section same" id="same" aria-labelledby="same-title">
+      <div class="section-header">
+        <div class="section-title">
+          <h2 id="same-title">相同地方</h2>
+        </div>
+        <div class="visual-panel generated-panel" aria-hidden="true">
+          <img class="generated-visual" src="images/optimized/ant-ladybug-compare.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="sentence-grid">
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Same Q&A</span>
+            <button class="speak-button" type="button" data-audio="audio/08.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What is the same about the two bugs?</p>
+            <p class="zh">這兩種昆蟲有什麼相同的地方？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">Ants and ladybugs both have antennae and head.</p>
+            <p class="zh">螞蟻和瓢蟲都有觸角和頭。</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">They are both tiny bugs.</p>
+            <p class="zh">牠們都是小昆蟲。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section different" id="different" aria-labelledby="different-title">
+      <div class="section-header">
+        <div class="section-title">
+          <h2 id="different-title">不同地方</h2>
+        </div>
+        <div class="visual-panel generated-panel" aria-hidden="true">
+          <img class="generated-visual" src="images/optimized/ant-ladybug-different.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="sentence-grid">
+        <article class="sentence-card qa-card">
+          <div class="sentence-top">
+            <span class="tag">Different Q&A</span>
+            <button class="speak-button" type="button" data-audio="audio/09.mp3">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm12.5 2a3.5 3.5 0 0 0-2.1-3.2v6.4a3.5 3.5 0 0 0 2.1-3.2zm0-7.3v2.1a7 7 0 0 1 0 10.4v2.1a9 9 0 0 0 0-14.6z"/></svg>
+              <span>播放</span>
+            </button>
+          </div>
+          <div class="qa-entry question">
+            <p class="en">What is the difference between them?</p>
+            <p class="zh">牠們有什麼不同的地方？</p>
+          </div>
+          <div class="qa-entry answer">
+            <p class="en">Ladybugs have two wings to fly but ants don’t.</p>
+            <p class="zh">瓢蟲有兩片翅膀可以飛，但是螞蟻沒有。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="game-title">
+      <div class="game-cta">
+        <div class="cta-title" id="game-title">🫧 Pop It 造句挑戰</div>
+        <p class="cta-sub">用本頁的例句玩造句泡泡，挑戰三關、衝高分、上排行榜！</p>
+        <a class="play-btn" href="marble-sentence.html">開始玩 →</a>
+      </div>
+    </section>
+
+    <div class="page-footer">
+      <a class="footer-link" href="https://talkbetter.github.io/D/">回導覽頁</a>
+      <div class="footer-actions">
+        <button class="back-to-top-button" id="backToTopButton" type="button">回到上方</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const toggleChinese = document.getElementById("toggleChinese");
+    const speakButtons = document.querySelectorAll(".speak-button");
+    const backToTopButton = document.getElementById("backToTopButton");
+    const lessonAudio = new Audio();
+    let activeAudioButton = null;
+
+    if (backToTopButton) {
+      backToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    if (toggleChinese) {
+      toggleChinese.addEventListener("change", () => {
+        document.body.classList.toggle("hide-zh", !toggleChinese.checked);
+      });
+    }
+
+    function resetAudioButton(button) {
+      if (!button) return;
+      button.dataset.state = "ready";
+      const label = button.querySelector("span");
+      if (label) label.textContent = "播放";
+    }
+
+    function setPlayingButton(button) {
+      resetAudioButton(activeAudioButton);
+      activeAudioButton = button;
+      button.dataset.state = "playing";
+      const label = button.querySelector("span");
+      if (label) label.textContent = "播放中";
+    }
+
+    speakButtons.forEach((button) => {
+      button.dataset.state = "ready";
+      button.addEventListener("click", () => {
+        const src = button.dataset.audio;
+        if (!src) return;
+
+        if (activeAudioButton === button && !lessonAudio.paused) {
+          lessonAudio.pause();
+          resetAudioButton(button);
+          activeAudioButton = null;
+          return;
+        }
+
+        lessonAudio.pause();
+        lessonAudio.src = src;
+        lessonAudio.currentTime = 0;
+        setPlayingButton(button);
+        lessonAudio.play().catch(() => {
+          resetAudioButton(button);
+          activeAudioButton = null;
+        });
+      });
+    });
+
+    lessonAudio.addEventListener("ended", () => {
+      resetAudioButton(activeAudioButton);
+      activeAudioButton = null;
+    });
+
+    lessonAudio.addEventListener("error", () => {
+      resetAudioButton(activeAudioButton);
+      activeAudioButton = null;
+    });
+  </script>
+</body>
+</html>
